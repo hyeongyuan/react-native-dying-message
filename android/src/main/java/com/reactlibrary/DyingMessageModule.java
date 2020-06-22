@@ -39,7 +39,7 @@ public class DyingMessageModule extends ReactContextBaseJavaModule implements Li
 
     @Override
     public void onHostDestroy() {
-        URL url = new URL("http", host, port, "/");
+        URL url = new URL("http", "192.168.101", 3002, "/");
         socket = IO.socket(url.toURI());
         socket.connect();
 
