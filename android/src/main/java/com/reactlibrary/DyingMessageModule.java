@@ -18,6 +18,8 @@ import org.json.JSONException;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
+import java.net.URISyntaxException;
+
 import android.util.Log;
 
 public class DyingMessageModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
