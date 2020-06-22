@@ -4,14 +4,48 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.LifecycleEventListener;
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.WritableMap;
 
-public class DyingMessageModule extends ReactContextBaseJavaModule {
+import com.facebook.react.modules.core.DeviceEventManagerModule;
+
+import java.net.URL;
+ 
+import io.socket.client.IO;
+import io.socket.client.Socket;
+
+public class DyingMessageModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
+
+    Socket socket;
 
     private final ReactApplicationContext reactContext;
 
     public DyingMessageModule(ReactApplicationContext reactContext) {
         super(reactContext);
+        reactContext.addLifecycleEventListener(this);
         this.reactContext = reactContext;
+    }
+
+    @Override
+    public void onHostResume() {
+
+    }
+
+    @Override
+    public void onHostPause() {
+
+    }
+
+    @Override
+    public void onHostDestroy() {
+        URL url = new URL("http", host, port, "/");
+        socket = IO.socket(url.toURI());
+        socket.connect();
+
+        JSONObject data = new JSONObject();
+        data.put("message", "hello");
+        socket.emit("exit", data);
     }
 
     @Override
